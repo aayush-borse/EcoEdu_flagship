@@ -40,17 +40,17 @@ export default function Home() {
       <Navbar />
 
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-green-500 via-emerald-600 to-teal-700 text-white py-24 px-6 text-center overflow-hidden">
+      <section className="relative overflow-hidden bg-gradient-to-r from-green-500 via-emerald-600 to-teal-700 text-white py-24 px-6 text-center">
         {/* Floating eco icons for vibe */}
         <div className="absolute inset-0 opacity-20 bg-[url('/images/leaves-pattern.png')] bg-cover" />
 
-        <h1 className="relative text-4xl md:text-6xl font-extrabold drop-shadow-lg">
+        <h1 className="relative text-4xl md:text-6xl font-extrabold drop-shadow-lg max-w-4xl mx-auto">
           Welcome to <span className="text-yellow-300">EcoEdu 🌱</span>
         </h1>
-        <p className="relative mt-4 text-lg md:text-xl text-gray-100 max-w-2xl mx-auto">
+        <p className="relative mt-4 text-lg md:text-xl text-gray-100 max-w-3xl mx-auto">
           Explore, Learn, and Share Sustainability with a global community.
         </p>
-        <div className="relative mt-8 flex justify-center">
+        <div className="relative mt-8 flex justify-center hover:cursor-pointer">
           <input
             type="text"
             placeholder="🔍 Search eco posts..."
@@ -63,21 +63,36 @@ export default function Home() {
       </section>
 
       {/* Highlights Section */}
-      <section className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-8 text-center">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:scale-105 transition">
+      <section className="max-w-7xl mx-auto px-6 py-12 grid md:grid-cols-3 gap-10 text-center">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300">
+          <img
+            src="https://cdn-icons-png.freepik.com/512/3588/3588578.png"
+            className="mx-auto mb-4 w-20 h-20"
+          />
           <h2 className="text-2xl font-bold text-green-600">🌍 Community</h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
             Join eco-warriors from across the globe
-            comming soon...
+            <br />
+            coming soon...
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:scale-105 transition">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRkVXI6MZ68PF7k4GDDYNBi-PAUIsgfWKS3UQ&s"
+            alt="Learning Icon"
+            className="mx-auto mb-4 w-20 object-cover rounded"
+          />
           <h2 className="text-2xl font-bold text-blue-600">📚 Learn</h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
             Gain knowledge with quizzes, posts, and challenges.
           </p>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow hover:scale-105 transition">
+        <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300">
+          <img
+            src="https://cdn-icons-png.freepik.com/256/17378/17378216.png?semt=ais_white_label"
+            alt="Act Icon"
+            className="mx-auto mb-4 w-20 h-20"
+          />
           <h2 className="text-2xl font-bold text-yellow-600">🌱 Act</h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
             Take real actions and inspire others by sharing stories.
@@ -86,7 +101,7 @@ export default function Home() {
       </section>
 
       {/* Posts Section */}
-      <section className="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+      <section className="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.length > 0 ? (
           posts.map((p) => (
             <PostCard key={p.id} {...p} onLike={() => like(p.id)} />

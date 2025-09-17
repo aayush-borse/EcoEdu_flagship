@@ -38,7 +38,7 @@ export default function Leaderboard() {
           {users.map((u, i) => (
             <div
               key={u.id}
-              className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 last:border-none"
+              className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 last:border-none hover:bg-gray-100 dark:hover:bg-gray-700 transition"
             >
               <div className="flex items-center gap-3">
                 {i < 3 && <Crown className="text-yellow-500" size={20} />}
@@ -49,6 +49,11 @@ export default function Leaderboard() {
               <span className="text-pink-600 font-bold">{u.points} pts</span>
             </div>
           ))}
+        </div>
+
+        <div className="mt-8 text-center text-gray-600 dark:text-gray-300 text-lg italic px-4 max-w-lg mx-auto">
+          Want to wear the crown next time? <br />
+          Embrace every challenge with passion and persistence, and rise to the top! Your journey to greatness starts with that first step—keep pushing, keep growing, and the throne will be yours.
         </div>
       </section>
     </div>

@@ -35,7 +35,7 @@ export default function Profile() {
         {/* Back Button */}
         <button
           onClick={() => router.push("/")}
-          className="mb-6 px-4 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
+          className="mb-6 px-4 py-2 bg-teal-500 text-white rounded-lg shadow hover:bg-green-700 transition"
         >
            Back to Home
         </button>
@@ -59,19 +59,19 @@ export default function Profile() {
 
         {/* Stats Section */}
         <div className="grid grid-cols-3 gap-6 mb-8">
-          <div className="bg-green-100 dark:bg-green-800 rounded-xl p-4 text-center">
-            <h2 className="text-2xl font-bold text-green-700 dark:text-green-300">
+          <div className="bg-green-500 dark:bg-green-500 rounded-xl p-4 text-center">
+            <h2 className="text-2xl font-bold text-green-900 dark:text-green-300">
               {user.points}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">Points</p>
+            <p className="text-white dark:text-white">Points</p>
           </div>
-          <div className="bg-blue-100 dark:bg-blue-800 rounded-xl p-4 text-center">
+          <div className="bg-blue-300 dark:bg-blue-800 rounded-xl p-4 text-center">
             <h2 className="text-2xl font-bold text-blue-700 dark:text-blue-300">
               {user.level}
             </h2>
-            <p className="text-gray-600 dark:text-gray-300">Level</p>
+            <p className="text-white dark:white">Level</p>
           </div>
-          <div className="bg-purple-100 dark:bg-purple-800 rounded-xl p-4 text-center">
+          <div className="bg-purple-300 dark:bg-purple-800 rounded-xl p-4 text-center">
             <h2 className="text-2xl font-bold text-purple-700 dark:text-purple-300">
               {user.quizzesTaken}
             </h2>
@@ -87,7 +87,7 @@ export default function Profile() {
           {achievements.map((a, i) => (
             <div
               key={i}
-              className="bg-green-50 dark:bg-green-800 p-5 rounded-xl shadow hover:scale-[1.02] transition"
+              className="bg-teal-100 dark:bg-green-800 p-5 rounded-xl shadow hover:scale-[1.02] transition"
             >
               <h3 className="text-lg font-semibold">{a.title}</h3>
               <p className="text-gray-700 dark:text-gray-300">{a.desc}</p>
@@ -127,7 +127,7 @@ export default function Profile() {
 
             <button
               type="submit"
-              className="px-6 py-2 bg-green-600 text-white rounded-lg shadow hover:bg-green-700 transition"
+              className="px-6 py-2 bg-teal-500 text-white rounded-lg shadow hover:bg-green-700 transition"
             >
               Save Changes
             </button>
