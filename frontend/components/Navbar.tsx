@@ -1,4 +1,3 @@
-// components/Navbar.tsx
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -21,27 +20,16 @@ export default function Navbar() {
 
       {/* Push links and icon to the far right */}
       <div className="flex-grow" />
-      
+
       <div className="flex items-center space-x-6">
         {links.map((link) => (
-          <Link
-            key={link.href}
-            href={link.href}
-            className={`${
-              router.pathname === link.href
-                ? "text-yellow-400 font-semibold"
-                : "hover:text-yellow-400"
-            } whitespace-nowrap`}
-          >
+          <Link key={link.href} href={link.href} className={`whitespace-nowrap ${router.pathname === link.href ? "text-yellow-400 font-semibold" : "hover:text-yellow-400"}`}>
             {link.label}
           </Link>
         ))}
 
-        {/* Profile Icon */}
-        <div
-          className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center cursor-pointer"
-          title="Profile"
-        >
+        {/* Profile Icon (now clickable and routed) */}
+        <Link href="/profile" className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center cursor-pointer" title="Profile">
           <svg
             className="w-5 h-5 text-white"
             fill="none"
@@ -56,7 +44,7 @@ export default function Navbar() {
               d="M5.121 17.804A9 9 0 1118.365 6.466M15 11a3 3 0 11-6 0 3 3 0 016 0z"
             />
           </svg>
-        </div>
+        </Link>
       </div>
     </nav>
   );
