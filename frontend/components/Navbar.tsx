@@ -23,7 +23,7 @@ export default function Navbar() {
 
       <div className="flex items-center space-x-6">
         {links.map((link) => (
-          <Link key={link.href} href={link.href} className={`whitespace-nowrap ${router.pathname === link.href ? "text-yellow-400 font-semibold" : "hover:text-yellow-400"}`}>
+          <Link key={link.href} href={link.href} className={`whitespace-nowrap ${router.pathname === link.href ? "text-yellow-400 font-semibold" : "hover:text-yellow-200 text-white"}`}>
             {link.label}
           </Link>
         ))}
