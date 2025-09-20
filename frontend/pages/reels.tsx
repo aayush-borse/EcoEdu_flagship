@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "../components/Navbar";
 import API from "../src/api";
 
@@ -11,6 +13,7 @@ interface Reel {
 }
 
 export default function Reels() {
+  const { t } = useTranslation("common");
   const [reels, setReels] = useState<Reel[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [likes, setLikes] = useState<{ [key: number]: number }>({});
@@ -22,10 +25,9 @@ export default function Reels() {
       const res = await API.get("/reels/");
       setReels(res.data);
 
-      // initialize likes + fake comments
       const initialLikes: { [key: number]: number } = {};
       const initialComments: { [key: number]: string[] } = {};
-      res.data.forEach((reel: Reel) => {
+      res.data.forEach((reel) => {
         initialLikes[reel.id] = reel.likes;
         initialComments[reel.id] = [
           "🔥 Amazing!",
@@ -50,7 +52,7 @@ export default function Reels() {
       <div>
         <Navbar />
         <div className="flex items-center justify-center h-screen text-white bg-black">
-          Loading Reels...
+          {t("loading_reels")}
         </div>
       </div>
     );
@@ -101,7 +103,9 @@ export default function Reels() {
               >
                 🤍
               </button>
-              <p className="text-sm">{likes[currentReel.id]} likes</p>
+              <p className="text-sm">
+                {likes[currentReel.id]} {t("likes")}
+              </p>
             </div>
           </div>
         </div>
@@ -111,9 +115,17 @@ export default function Reels() {
           onClick={nextReel}
           className="mt-6 px-6 py-2 bg-green-600 rounded-full hover:bg-green-700 transition"
         >
-          {currentIndex === reels.length - 1 ? "Go to Quiz →" : "Next Reel →"}
+          {currentIndex === reels.length - 1 ? t("go_to_quiz") : t("next_reel")}
         </button>
       </div>
     </div>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 }

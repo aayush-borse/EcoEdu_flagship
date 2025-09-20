@@ -1,21 +1,36 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useTranslation } from "next-i18next";
 
 export default function Navbar() {
   const router = useRouter();
+  const { t } = useTranslation();
 
   const links = [
-    { href: "/", label: "Home" },
-    { href: "/reels", label: "Reels" },
-    { href: "/quiz", label: "Quiz" },
-    { href: "/leaderboard", label: "Leaderboard" },
+    { href: "/", label: t("home") },
+    { href: "/reels", label: t("reels") },
+    { href: "/quiz", label: t("quiz") },
+    { href: "/leaderboard", label: t("leaderboard") },
   ];
+
+  const changeLanguage = (lng: string) => {
+    router.push(router.pathname, router.asPath, { locale: lng });
+  };
 
   return (
     <nav className="bg-zinc-800 shadow p-4 flex items-center sticky top-0 z-50">
-      {/* Brand on left */}
-      <div className="text-2xl font-bold text-violet-600 cursor-default select-none">
-        EcoEdu
+      {/* Brand on left with logo image */}
+      <div className="cursor-default select-none">
+        <Link href="/">
+          
+            <img
+              src="/newlogo.png"
+              alt="EcoXP Logo"
+              className="h-8"
+              loading="lazy"
+            />
+          
+        </Link>
       </div>
 
       {/* Push links and icon to the far right */}
@@ -23,13 +38,36 @@ export default function Navbar() {
 
       <div className="flex items-center space-x-6">
         {links.map((link) => (
-          <Link key={link.href} href={link.href} className={`whitespace-nowrap ${router.pathname === link.href ? "text-yellow-400 font-semibold" : "hover:text-yellow-200 text-white"}`}>
+          <Link
+            key={link.href}
+            href={link.href}
+            className={`whitespace-nowrap ${
+              router.pathname === link.href
+                ? "text-yellow-400 font-semibold"
+                : "hover:text-yellow-200 text-white"
+            }`}
+          >
             {link.label}
           </Link>
         ))}
 
-        {/* Profile Icon (now clickable and routed) */}
-        <Link href="/profile" className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center cursor-pointer" title="Profile">
+        {/* Language Switcher */}
+        <select
+          value={router.locale}
+          onChange={(e) => changeLanguage(e.target.value)}
+          className="bg-zinc-700 text-white px-2 py-1 rounded cursor-pointer"
+          aria-label="Select language"
+        >
+          <option value="en">English</option>
+          <option value="hi">हिन्दी</option>
+        </select>
+
+        {/* Profile Icon (clickable and routed) */}
+        <Link
+          href="/profile"
+          className="w-8 h-8 rounded-full bg-violet-600 flex items-center justify-center cursor-pointer"
+          title="Profile"
+        >
           <svg
             className="w-5 h-5 text-white"
             fill="none"

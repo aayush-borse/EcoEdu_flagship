@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "../components/Navbar";
 import QuizCard from "../components/QuizCard";
 import API from "../src/api";
@@ -10,6 +12,7 @@ interface Quiz {
 }
 
 export default function Quiz() {
+  const { t } = useTranslation("common");
   const [quizzes, setQuizzes] = useState<Quiz[]>([]);
   const [answers, setAnswers] = useState<{ [key: number]: string }>({});
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,7 +30,7 @@ export default function Quiz() {
     const payload = { answers: Object.values(answers).map((a) => ({ answer: a, correct: true })) };
     try {
       const res = await API.post("/quiz/submit", payload);
-      alert(`Score: ${res.data.score}`);
+      alert(`${t("score")}: ${res.data.score}`);
     } catch (err) {
       console.error(err);
     }
@@ -38,14 +41,11 @@ export default function Quiz() {
   }, []);
 
   const currentQuiz = quizzes[currentIndex];
-
   const handleNext = () => {
     if (currentIndex < quizzes.length - 1) {
       setCurrentIndex(currentIndex + 1);
     }
   };
-
-  // For skipping to submit when done
   const isLastQuestion = currentIndex === quizzes.length - 1;
 
   return (
@@ -59,7 +59,7 @@ export default function Quiz() {
           {quizzes.length > 0 && currentQuiz && (
             <>
               <div className="text-white text-lg font-semibold mb-2 select-none">
-                Question {currentIndex + 1} of {quizzes.length}
+                {t("question")} {currentIndex + 1} {t("of")} {quizzes.length}
               </div>
               <div
                 className="
@@ -82,21 +82,20 @@ export default function Quiz() {
                   {...currentQuiz}
                   selected={answers[currentQuiz.id]}
                   onSelect={(opt) => setAnswers({ ...answers, [currentQuiz.id]: opt })}
-                  className="text-gray-900"
                 />
               </div>
 
               <div className="flex justify-between mt-4">
                 <button
-                  onClick={() => setCurrentIndex(i => Math.max(i - 1, 0))}
+                  onClick={() => setCurrentIndex((i) => Math.max(i - 1, 0))}
                   disabled={currentIndex === 0}
                   className={`
                     bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded 
-                    ${currentIndex === 0 ? 'opacity-50 cursor-not-allowed' : 'hover:bg-gray-400'}
+                    ${currentIndex === 0 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-400"}
                     transition
                   `}
                 >
-                  Previous
+                  {t("previous")}
                 </button>
 
                 {!isLastQuestion ? (
@@ -109,7 +108,7 @@ export default function Quiz() {
                     "
                     disabled={!answers[currentQuiz.id]}
                   >
-                    Next
+                    {t("next")}
                   </button>
                 ) : (
                   <button
@@ -121,7 +120,7 @@ export default function Quiz() {
                     "
                     disabled={Object.keys(answers).length !== quizzes.length}
                   >
-                    Submit Quiz
+                    {t("submit_quiz")}
                   </button>
                 )}
               </div>
@@ -129,10 +128,18 @@ export default function Quiz() {
           )}
 
           {quizzes.length === 0 && (
-            <div className="text-white text-center text-xl mt-12">Loading quizzes...</div>
+            <div className="text-white text-center text-xl mt-12">{t("loading_quizzes")}</div>
           )}
         </div>
       </div>
     </div>
   );
+}
+
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 }

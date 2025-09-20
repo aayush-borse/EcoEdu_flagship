@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useTranslation } from "next-i18next";
+import { serverSideTranslations } from "next-i18next/serverSideTranslations";
 import Navbar from "../components/Navbar";
 import PostCard from "../components/PostCard";
 import API from "../src/api";
@@ -11,6 +13,7 @@ interface Post {
 }
 
 export default function Home() {
+  const { t } = useTranslation("common");
   const [posts, setPosts] = useState<Post[]>([]);
 
   const fetchPosts = async () => {
@@ -45,19 +48,19 @@ export default function Home() {
         <div className="absolute inset-0 opacity-20 bg-[url('/images/leaves-pattern.png')] bg-cover" />
 
         <h1 className="relative text-4xl md:text-6xl font-extrabold drop-shadow-lg max-w-4xl mx-auto">
-          Welcome to <span className="text-yellow-300">EcoEdu 🌱</span>
+          {t("welcome_message")} <span className="text-yellow-300">EcoXP 🌱</span>
         </h1>
         <p className="relative mt-4 text-lg md:text-xl text-gray-100 max-w-3xl mx-auto">
-          Explore, Learn, and Share Sustainability with a global community.
+          {t("hero_description")}
         </p>
         <div className="relative mt-8 flex justify-center hover:cursor-pointer">
           <input
             type="text"
-            placeholder="🔍 Search eco posts..."
+            placeholder={t("search_placeholder")}
             className="px-4 py-3 rounded-l-lg w-72 md:w-96 focus:outline-none text-gray-900 shadow-lg"
           />
           <button className="bg-yellow-400 px-6 py-3 rounded-r-lg hover:bg-yellow-500 transition font-semibold text-gray-900 shadow-lg">
-            Search
+            {t("search")}
           </button>
         </div>
       </section>
@@ -69,11 +72,9 @@ export default function Home() {
             src="https://cdn-icons-png.freepik.com/512/3588/3588578.png"
             className="mx-auto mb-4 w-20 h-20"
           />
-          <h2 className="text-2xl font-bold text-green-600">🌍 Community</h2>
+          <h2 className="text-2xl font-bold text-green-600">🌍 {t("community")}</h2>
           <p className="mt-2 text-gray-600 dark:text-gray-300">
-            Join eco-warriors from across the globe
-            <br />
-            coming soon...
+            {t("community_desc")}
           </p>
         </div>
         <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300">
@@ -82,10 +83,8 @@ export default function Home() {
             alt="Learning Icon"
             className="mx-auto mb-4 w-20 object-cover rounded"
           />
-          <h2 className="text-2xl font-bold text-blue-600">📚 Learn</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
-            Gain knowledge with quizzes, posts, and challenges.
-          </p>
+          <h2 className="text-2xl font-bold text-blue-600">📚 {t("learn")}</h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-300">{t("learn_desc")}</p>
         </div>
         <div className="bg-white dark:bg-gray-800 p-8 rounded-3xl shadow-lg hover:scale-105 transition-transform duration-300">
           <img
@@ -93,25 +92,30 @@ export default function Home() {
             alt="Act Icon"
             className="mx-auto mb-4 w-20 h-20"
           />
-          <h2 className="text-2xl font-bold text-yellow-600">🌱 Act</h2>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">
-            Take real actions and inspire others by sharing stories.
-          </p>
+          <h2 className="text-2xl font-bold text-yellow-600">🌱 {t("act")}</h2>
+          <p className="mt-2 text-gray-600 dark:text-gray-300">{t("act_desc")}</p>
         </div>
       </section>
 
       {/* Posts Section */}
       <section className="max-w-7xl mx-auto p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         {posts.length > 0 ? (
-          posts.map((p) => (
-            <PostCard key={p.id} {...p} onLike={() => like(p.id)} />
-          ))
+          posts.map((p) => <PostCard key={p.id} {...p} onLike={() => like(p.id)} />)
         ) : (
           <div className="col-span-full text-center text-gray-600 dark:text-gray-300">
-            🌿 No posts yet. Be the first to share your eco journey!
+            {t("empty_posts_message")}
           </div>
         )}
       </section>
     </div>
   );
+}
+
+// Static props to load translations during build for SSR and SSG
+export async function getStaticProps({ locale }: { locale: string }) {
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ["common"])),
+    },
+  };
 }

@@ -1,0 +1,55 @@
+{
+  "home": "Home",
+  "reels": "Reels",
+  "quiz": "Quiz",
+  "leaderboard": "Leaderboard",
+  "profile": "Profile",
+  "language": "Language",
+  "welcome_message": "Welcome to",
+  "hero_description": "Explore, Learn, and Share Sustainability with a global community.",
+  "search_placeholder": "🔍 Search eco posts...",
+  "search": "Search",
+  "community": "Community",
+  "community_desc": "Join eco-warriors from across the globe\ncoming soon...",
+  "learn": "Learn",
+  "learn_desc": "Gain knowledge with quizzes, posts, and challenges.",
+  "act": "Act",
+  "act_desc": "Take real actions and inspire others by sharing stories.",
+  "empty_posts_message": "🌿 No posts yet. Be the first to share your eco journey!",
+  
+  "back_to_home": "Back to Home",
+  "eco_warrior": "Eco Warrior 🌱",
+  "completed_eco_challenges": "Completed 10 eco-friendly challenges",
+  "recycler": "Recycler ♻️",
+  "recycled_items": "Recycled 100+ items",
+  "green_streak": "Green Streak 🔥",
+  "logged_in_days": "Logged in for 7 days in a row",
+  "points": "Points",
+  
+  "question": "Question",
+  "of": "of",
+  "previous": "Previous",
+  "next": "Next",
+  "submit_quiz": "Submit Quiz",
+  "score": "Score",
+  "loading_quizzes": "Loading quizzes...",
+
+  "loading_reels": "Loading Reels...",
+  "likes": "likes",
+  "go_to_quiz": "Go to Quiz →",
+  "next_reel": "Next Reel →",
+
+
+  "level": "Level",
+  "quizzes": "Quizzes",
+  "achievements": "Achievements",
+  "edit_profile": "Edit Profile",
+  "name": "Name",
+  "email": "Email",
+  "save_changes": "Save Changes",
+  "pts": "pts",
+  "leaderboard_message": "Want to wear the crown next time? Embrace every challenge with passion and persistence, and rise to the top! Your journey to greatness starts with that first step—keep pushing, keep growing, and the throne will be yours."
+
+
+
+}

@@ -3,7 +3,8 @@
   "/_error": "pages/_error.js",
   "/_document": "pages/_document.js",
   "/": "pages/index.js",
+  "/quiz": "pages/quiz.js",
+  "/profile": "pages/profile.js",
   "/leaderboard": "pages/leaderboard.js",
-  "/reels": "pages/reels.js",
-  "/quiz": "pages/quiz.js"
+  "/reels": "pages/reels.js"
 }
