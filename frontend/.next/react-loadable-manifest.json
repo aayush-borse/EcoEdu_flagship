@@ -10,5 +10,17 @@
     "files": [
       "static/chunks/_pages-dir-browser_node_modules_next_dist_pages__error_js.js"
     ]
+  },
+  "pages\\hunt.tsx -> leaflet": {
+    "id": "pages\\hunt.tsx -> leaflet",
+    "files": [
+      "static/chunks/_pages-dir-browser_node_modules_leaflet_dist_leaflet-src_js.js"
+    ]
+  },
+  "pages\\hunt.tsx -> react-leaflet": {
+    "id": "pages\\hunt.tsx -> react-leaflet",
+    "files": [
+      "static/chunks/_pages-dir-browser_node_modules_react-leaflet_lib_index_js.js"
+    ]
   }
 }
