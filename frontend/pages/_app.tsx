@@ -1,6 +1,8 @@
 import '../styles/globals.css';
 import { useEffect, useState } from 'react';
 import { appWithTranslation } from 'next-i18next';
+import 'leaflet/dist/leaflet.css';
+import '../styles/globals.css';
 
 function MyApp({ Component, pageProps }) {
   const [theme, setTheme] = useState('light');

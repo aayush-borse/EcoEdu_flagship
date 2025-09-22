@@ -1,0 +1,20 @@
+[
+    {
+        "id": 1,
+        "name": "Peepal Tree",
+        "type": "tree",
+        "rarity": "rare",
+        "latitude": 19.0760,
+        "longitude": 72.8777,
+        "image_url": "/images/peepal.jpg"
+    },
+    {
+        "id": 2,
+        "name": "Kingfisher",
+        "type": "bird",
+        "rarity": "common",
+        "latitude": 19.0780,
+        "longitude": 72.8800,
+        "image_url": "/images/kingfisher.jpg"
+    }
+]

@@ -44,7 +44,6 @@ export default function Home() {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-r from-green-500 via-emerald-600 to-teal-700 text-white py-24 px-6 text-center">
-        {/* Floating eco icons for vibe */}
         <div className="absolute inset-0 opacity-20 bg-[url('/images/leaves-pattern.png')] bg-cover" />
 
         <h1 className="relative text-4xl md:text-6xl font-extrabold drop-shadow-lg max-w-4xl mx-auto">
@@ -112,10 +111,10 @@ export default function Home() {
 }
 
 // Static props to load translations during build for SSR and SSG
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getStaticProps({ locale }: { locale?: string }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? "en", ["common"])),
     },
   };
 }

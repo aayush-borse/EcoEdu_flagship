@@ -6,11 +6,13 @@ export default function Navbar() {
   const router = useRouter();
   const { t } = useTranslation();
 
+  // Add Hunt page to links
   const links = [
     { href: "/", label: t("home") },
     { href: "/reels", label: t("reels") },
     { href: "/quiz", label: t("quiz") },
     { href: "/leaderboard", label: t("leaderboard") },
+    { href: "/hunt", label: t("hunt") }, // NEW Hunt link
   ];
 
   const changeLanguage = (lng: string) => {
@@ -22,14 +24,12 @@ export default function Navbar() {
       {/* Brand on left with logo image */}
       <div className="cursor-default select-none">
         <Link href="/">
-          
-            <img
-              src="/newlogo.png"
-              alt="EcoXP Logo"
-              className="h-8"
-              loading="lazy"
-            />
-          
+          <img
+            src="/newlogo.png"
+            alt="EcoXP Logo"
+            className="h-8"
+            loading="lazy"
+          />
         </Link>
       </div>
 

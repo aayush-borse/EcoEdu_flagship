@@ -26,6 +26,8 @@ def create_app():
     from .routes.quiz import quiz_bp
     from .routes.leaderboard import leaderboard_bp
     from .routes.profile import profile_bp
+    from .routes.hunt import hunt_bp
+
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(posts_bp, url_prefix='/posts')
@@ -33,6 +35,7 @@ def create_app():
     app.register_blueprint(quiz_bp, url_prefix='/quiz')
     app.register_blueprint(leaderboard_bp, url_prefix='/leaderboard')
     app.register_blueprint(profile_bp, url_prefix='/profile')
+    app.register_blueprint(hunt_bp, url_prefix="/hunt")
 
     with app.app_context():
         db.create_all()
