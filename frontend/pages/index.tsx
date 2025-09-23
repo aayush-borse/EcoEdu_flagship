@@ -111,10 +111,11 @@ export default function Home() {
 }
 
 // Static props to load translations during build for SSR and SSG
-export async function getStaticProps({ locale }: { locale?: string }) {
+export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale ?? "en", ["common"])),
+      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
     },
   };
+
 }

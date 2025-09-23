@@ -136,10 +136,11 @@ export default function Quiz() {
   );
 }
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
     },
   };
+
 }

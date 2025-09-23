@@ -1,27 +1,14 @@
-// pages/hunt.tsx
 "use client";
 
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import "leaflet/dist/leaflet.css";
 
-// ✅ Dynamically import React-Leaflet components (never run on server)
-const MapContainer = dynamic(
-  () => import("react-leaflet").then((m) => m.MapContainer),
-  { ssr: false }
-);
-const TileLayer = dynamic(
-  () => import("react-leaflet").then((m) => m.TileLayer),
-  { ssr: false }
-);
-const Marker = dynamic(
-  () => import("react-leaflet").then((m) => m.Marker),
-  { ssr: false }
-);
-const Popup = dynamic(
-  () => import("react-leaflet").then((m) => m.Popup),
-  { ssr: false }
-);
+// Dynamic imports for React-Leaflet
+const MapContainer = dynamic(() => import("react-leaflet").then(m => m.MapContainer), { ssr: false });
+const TileLayer = dynamic(() => import("react-leaflet").then(m => m.TileLayer), { ssr: false });
+const Marker = dynamic(() => import("react-leaflet").then(m => m.Marker), { ssr: false });
+const Popup = dynamic(() => import("react-leaflet").then(m => m.Popup), { ssr: false });
 
 type HuntItem = {
   instance_id: string;
@@ -34,34 +21,30 @@ type HuntItem = {
 };
 
 export default function HuntPage() {
-  const [L, setL] = useState<any>(null); // ✅ Lazy-load Leaflet client-side
+  const [L, setL] = useState<any>(null);
   const [position, setPosition] = useState<[number, number] | null>(null);
   const [items, setItems] = useState<HuntItem[]>([]);
-  const [ecoCubes, setEcoCubes] = useState<number>(0);
+  const [ecoCubes, setEcoCubes] = useState(10);
   const [inventory, setInventory] = useState<HuntItem[]>([]);
   const userId = "demo_user";
 
+  // Load Leaflet dynamically (client-only)
   useEffect(() => {
-    // ✅ Import Leaflet only on client
     (async () => {
       const leaflet = await import("leaflet");
       setL(leaflet);
     })();
   }, []);
 
-  // ✅ Fetch items from backend
+  // Fetch items from backend
   const fetchItems = async (lat: number, lng: number) => {
-    const res = await fetch(
-      `http://localhost:5000/hunt/items?lat=${lat}&lng=${lng}`
-    );
+    const res = await fetch(`http://localhost:5000/hunt/items?lat=${lat}&lng=${lng}`);
     const data = await res.json();
     if (data.success) setItems(data.items);
   };
 
   const fetchInventory = async () => {
-    const res = await fetch(
-      `http://localhost:5000/hunt/inventory?user_id=${userId}`
-    );
+    const res = await fetch(`http://localhost:5000/hunt/inventory?user_id=${userId}`);
     const data = await res.json();
     if (data.success) {
       setInventory(data.items);
@@ -69,6 +52,40 @@ export default function HuntPage() {
     }
   };
 
+  useEffect(() => {
+    if (typeof navigator !== "undefined") {
+      navigator.geolocation.getCurrentPosition(
+        pos => {
+          const coords: [number, number] = [pos.coords.latitude, pos.coords.longitude];
+          setPosition(coords);
+          fetchItems(coords[0], coords[1]);
+          fetchInventory();
+        },
+        err => console.error("Geolocation error:", err),
+        { enableHighAccuracy: true }
+      );
+    }
+  }, []);
+
+  if (!L) return <p className="p-6">Loading map engine...</p>;
+
+  // User icon
+  const userIcon = new L.Icon({
+    iconUrl: "https://cdn-icons-png.flaticon.com/512/64/64572.png",
+    iconSize: [40, 40],
+    iconAnchor: [20, 40],
+  });
+
+  // Item marker icon (based on item.image_url)
+  const getItemIcon = (item: HuntItem) =>
+    new L.Icon({
+      iconUrl: item.image_url,
+      iconSize: [50, 50],
+      iconAnchor: [25, 50],
+      popupAnchor: [0, -50],
+    });
+
+  // Catch item
   const catchItem = async (itemId: string) => {
     const res = await fetch("http://localhost:5000/hunt/found", {
       method: "POST",
@@ -77,46 +94,12 @@ export default function HuntPage() {
     });
     const data = await res.json();
     if (data.success) {
-      alert(`You caught a ${data.inventory[data.inventory.length - 1].name}!`);
+      alert(`🎉 You caught a ${data.inventory[data.inventory.length - 1].name}!`);
       setInventory(data.inventory);
       setEcoCubes(data.remaining_cubes);
-      setItems((prev) => prev.filter((i) => i.instance_id !== itemId));
-    } else {
-      alert(data.message);
-    }
+      setItems(prev => prev.filter(i => i.instance_id !== itemId));
+    } else alert(data.message);
   };
-
-  useEffect(() => {
-    if (typeof navigator !== "undefined") {
-      navigator.geolocation.getCurrentPosition(
-        (pos) => {
-          const coords: [number, number] = [
-            pos.coords.latitude,
-            pos.coords.longitude,
-          ];
-          setPosition(coords);
-          fetchItems(coords[0], coords[1]);
-          fetchInventory();
-        },
-        (err) => console.error("Geolocation error:", err),
-        { enableHighAccuracy: true }
-      );
-    }
-  }, []);
-
-  if (!L) return <p className="p-6">Loading game engine...</p>;
-
-  const userIcon = new L.Icon({
-    iconUrl: "/icons/user.png",
-    iconSize: [40, 40],
-    iconAnchor: [20, 40],
-  });
-
-  const itemIcon = new L.Icon({
-    iconUrl: "/icons/creature.png",
-    iconSize: [50, 50],
-    iconAnchor: [25, 50],
-  });
 
   return (
     <div className="w-full h-screen flex flex-col">
@@ -131,12 +114,7 @@ export default function HuntPage() {
 
       {/* Map */}
       {position ? (
-        <MapContainer
-          center={position}
-          zoom={16}
-          className="flex-1"
-          style={{ height: "100%", width: "100%" }}
-        >
+        <MapContainer center={position} zoom={16} className="flex-1" style={{ height: "100%", width: "100%" }}>
           <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
 
           {/* User marker */}
@@ -145,19 +123,10 @@ export default function HuntPage() {
           </Marker>
 
           {/* Hunt items */}
-          {items.map((item) => (
-            <Marker
-              key={item.instance_id}
-              position={[item.latitude, item.longitude]}
-              icon={itemIcon}
-            >
+          {items.map(item => (
+            <Marker key={item.instance_id} position={[item.latitude, item.longitude]} icon={getItemIcon(item)}>
               <Popup>
                 <div className="text-center">
-                  <img
-                    src={item.image_url}
-                    alt={item.name}
-                    className="w-32 h-32 object-contain mx-auto"
-                  />
                   <h2 className="text-lg font-bold">{item.name}</h2>
                   <p className="text-sm italic">Rarity: {item.rarity}</p>
                   <button

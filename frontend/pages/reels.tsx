@@ -122,10 +122,11 @@ export default function Reels() {
   );
 }
 
-export async function getStaticProps({ locale }: { locale: string }) {
+export async function getStaticProps({ locale }) {
   return {
     props: {
-      ...(await serverSideTranslations(locale, ["common"])),
+      ...(await serverSideTranslations(locale ?? 'en', ['common'])),
     },
   };
+
 }
